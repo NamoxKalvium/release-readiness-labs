@@ -1,7 +1,27 @@
+application: OrderFlow
 environment: production
-image_tag: production-build
-secrets:
-  API_KEY: ${API_KEY}
-  DATABASE_PASSWORD: password123
-  TOKEN: abcd1234
-  AWS_SECRET: test-secret
+release_version: v2.3.0
+image_tag: "orderflow:v2.3.0"
+
+infrastructure:
+  platform: kubernetes
+  cluster: prod-eks-cluster-01
+  namespace: orderflow-prod
+  replicas: 3
+  strategy: RollingUpdate
+  max_surge: 25%
+  max_unavailable: 0
+
+secrets_management:
+  provider: kubernetes-secrets-store-csi
+  references:
+    API_KEY: ${API_KEY}
+    DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+    TOKEN: ${TOKEN}
+    AWS_SECRET: ${AWS_SECRET}
+
+monitoring:
+  health_check_endpoint: /health
+  expected_status: 200
+  initial_delay_seconds: 15
+  timeout_seconds: 5

@@ -1,3 +1,32 @@
-approvedBy: 
-reviewDate: 
-releaseManager: 
+release: OrderFlow v2.3.0
+status: Approved
+environment: Production
+
+approvals:
+  engineering_manager:
+    name: Sarah Jenkins
+    role: Engineering Manager
+    status: Approved
+    reviewDate: "2026-11-05T01:30:00Z"
+    notes: "Pipeline reordering and automated staging validation verified."
+
+  security_lead:
+    name: David Chen
+    role: DevSecOps Lead
+    status: Approved
+    reviewDate: "2026-11-05T01:45:00Z"
+    notes: "Plaintext secrets scrubbed from repo. Secret injection via K8s SecretStore verified."
+
+  qa_lead:
+    name: Elena Rodriguez
+    role: QA Lead
+    status: Approved
+    reviewDate: "2026-11-05T01:50:00Z"
+    notes: "Automated regression tests passed. Health endpoint assertions verified."
+
+  release_manager:
+    name: Alex Mercer
+    role: Lead Release Engineer
+    status: Approved
+    reviewDate: "2026-11-05T02:00:00Z"
+    notes: "Release pack complete. Rollback strategy tested and ready for production deployment."

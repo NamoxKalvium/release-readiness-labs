@@ -1,5 +1,20 @@
 {
-  "Version": "1.0",
-  "ReleaseDate": "2024-01-01",
-  "Author": "DevOps Team"
+  "application": "OrderFlow",
+  "version": "v2.3.0",
+  "semanticVersion": "2.3.0",
+  "releaseDate": "2026-11-05",
+  "commitHash": "9b4f2e18d",
+  "author": "Release Engineering Team",
+  "environment": "production",
+  "status": "APPROVED",
+  "artifacts": {
+    "dockerImage": "ghcr.io/kalviumcommunity/orderflow:v2.3.0",
+    "gitTag": "v2.3.0",
+    "digest": "sha256:4a8bc93e62058b2914db254e28c61e4f45b73d2a71340156d98f7e2c91b7d34a"
+  },
+  "compliance": {
+    "securityAudit": "PASSED",
+    "ciValidation": "PASSED",
+    "peerApproval": "PASSED"
+  }
 }

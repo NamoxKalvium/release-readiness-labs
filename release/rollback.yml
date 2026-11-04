@@ -1,2 +1,36 @@
-rollback_strategy: 
-target_version: 
+rollback_plan:
+  application: OrderFlow
+  current_release: v2.3.0
+  target_rollback_version: v2.2.9
+  rto_target_minutes: 2
+  rpo_target_minutes: 0
+
+  trigger_conditions:
+    - metric: "HTTP 5xx Error Rate"
+      threshold: "> 1% over a 3-minute sliding window"
+    - metric: "Pod CrashLoopBackOff / Restarts"
+      threshold: "> 2 restarts within 5 minutes"
+    - metric: "Health Probe Failure"
+      threshold: "Consecutive /health probe failures for 30 seconds"
+
+  execution_procedure:
+    step_1:
+      action: "Isolate Traffic"
+      command: "kubectl annotate ingress orderflow-ingress alb.ingress.kubernetes.io/freeze-traffic=true"
+    step_2:
+      action: "Execute Deployment Rollout Undo"
+      command: "kubectl rollout undo deployment/orderflow-app"
+    step_3:
+      action: "Execute Rollback Automation Script"
+      command: "./scripts/rollback.sh v2.2.9"
+    step_4:
+      action: "Verify Pod Stability"
+      command: "kubectl rollout status deployment/orderflow-app --timeout=60s"
+    step_5:
+      action: "Perform Smoke Test"
+      command: "curl -f http://orderflow-app-service/health"
+
+  verification:
+    expected_status_code: 200
+    expected_version: "2.2.9"
+    post_rollback_notification_channel: "#incident-management"
